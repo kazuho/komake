@@ -1,0 +1,41 @@
+#! /usr/bin/perl
+
+use strict;
+use warnings;
+use Fcntl qw(LOCK_EX);
+use File::Temp qw(tempdir);
+
+if (!defined $ENV{KOMAKE_LEVEL}) {
+    # This is the root process, initialize, and run make as subprocess.
+
+    # set or update the MAKE environment variable
+    $ENV{MAKE} = "make"
+        unless defined $ENV{MAKE};
+    $ENV{KOMAKE_REALMAKE} = $ENV{MAKE};
+    $ENV{MAKE} = $0;
+
+    # setup our bookkeeping
+    $ENV{KOMAKE_LEVEL} = 0;
+    $ENV{KOMAKE_DIR} = tempdir(CLEANUP => 1);
+
+    system($ENV{KOMAKE_REALMAKE}, @ARGV) == 0
+        or die "make failed:$?";
+    exit 0;
+}
+
+# Child process that we need to control concurrency. We do so by limiting the number of make processes running at each level to one
+
+++$ENV{KOMAKE_LEVEL};
+
+# do not let exec close the lockfile
+$^F = 99999;
+
+# obtain lock
+my $lockfn = "$ENV{KOMAKE_DIR}/$ENV{KOMAKE_LEVEL}";
+open my $fh, ">>", $lockfn
+    or die "failed to open $lockfn:$!";
+flock $fh, LOCK_EX
+    or die "failed to lock file $lockfn:$!";
+
+exec $ENV{KOMAKE_REALMAKE}, @ARGV;
+die "failed to exec make:$?";
