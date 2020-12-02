@@ -17,4 +17,8 @@ for building each of those sub-projects.
 
 However, when there is a diamond dependency between those sub-projects (e.g., sub-project-1 and sub-project-2 depending on sub-project-3), make (1) does not have the capability of limiting concurrent execution of `make sub-project-3`. When race happens, the result of the build process becomes unpredictable, often ending up in an error.
 
-`komake` is a wrapper for make (1) that resolves this problem, by limiting the concurrency of make (1) building sub-projects to exactly one.
+Komake is a wrapper for make (1) that resolves this problem, by limiting the concurrency of make (1) building sub-projects to exactly one.
+
+## Notes
+
+While komake is meant to work, do not assume that you can win by using komake. Read the name carefully.
