@@ -19,6 +19,10 @@ However, when there is a diamond dependency between those sub-projects (e.g., su
 
 Komake is a wrapper for make (1) that resolves this problem, by limiting the concurrency of make (1) building sub-projects to exactly one.
 
+## Setting Concurrency
+
+In order to achieve the necessary concurrency, users are advised to set the argument of `-j` option to the number of CPU cores plus the number of make (1) processes that may be invoked. This is because make (1) processes being delayed due to the concurrency limitation counts towards the concurrency as well.
+
 ## Notes
 
-While komake is meant to work, do not assume that you can win by using komake. Read the name carefully.
+While komake is meant to work, Japanese users should not assume that you can win by using komake. Read the name carefully.
