@@ -7,7 +7,7 @@ Komake is a wrapper of make(1) that limits the concurrency of makes being recurs
 ```
 $ komake                   # runs `make all`
 $ komake -j4 myproj        # options are passsed to `make`
-$ MAKE=my-make komake    # use my favorite make, wrapped by komake
+$ MAKE=my-make komake      # use my favorite make, wrapped by komake
 ```
 
 ## Description
