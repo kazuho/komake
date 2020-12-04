@@ -25,4 +25,4 @@ In order to achieve the necessary concurrency, users are advised to set the argu
 
 ## Notes
 
-While komake is meant to work, Japanese users should not assume that you can win by using komake. Read the name carefully.
+While komake is meant to work, Japanese users should not assume that komake is the path to victory. Read the name carefully.
